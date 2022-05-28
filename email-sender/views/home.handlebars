@@ -1,1 +1,20 @@
-<h1>Example App: Home</h1>
+<div class="container">
+  <form id="contact" action="send" method="POST">
+    <h3>Contact Form</h3>
+    <fieldset>
+      <input name="name" placeholder="Your name" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+      <input name="email" placeholder="Your Email Address" type="email" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+      <input name="subject" placeholder="Subject" type="text" tabindex="3" required>
+    </fieldset>
+    <fieldset>
+      <textarea name="message" placeholder="Type your message here...." tabindex="4" required></textarea>
+    </fieldset>
+    <fieldset>
+      <button type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+    </fieldset>
+  </form>
+</div>
