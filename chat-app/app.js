@@ -28,15 +28,43 @@ app.get('/', (req, res) => {
 
 app.post('/chat', (req, res) => {
     const { username } = req.body;
+    uName = username;
     res.render('chat', { username });
 });
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
+let uName; 
+const users = [];
 
-    socket.on('disconnect', () => {
-        console.log('a user disconnected');
-    });
+/**
+ * Methods
+ */
+
+const handleConnect = (socket) => {
+    const user = {
+        username: uName,
+        id: socket.id,
+        profile: `https://robohash.org/${uName}.png?set=set1`,
+    };
+
+    users.push(user);
+};
+
+const handleDisconnect = (socket) => {
+    console.log(`a user with id ${socket.id} disconnected`);
+};
+
+const handleMessage = (socket, message) => {
+    console.log(`${message}`);
+};
+
+/**
+ * Socket events
+ */
+
+io.on('connection', (socket) => {
+    socket.on('joinRoom', () => handleConnect(socket));
+    socket.on('disconnect', () => handleDisconnect(socket));
+    socket.on('userMessage', (message) => handleMessage(socket, message));
 });
 
 server.listen(port, () => { console.log(`Listening on port ${port}...`) });
