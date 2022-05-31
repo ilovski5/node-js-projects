@@ -52,6 +52,8 @@ const handleConnect = (socket) => {
     };
 
     users.push(user);
+    // get old messages when user connects later
+    messages.map((message) => { socket.emit('userMessage', message); });
 };
 
 const handleDisconnect = (socket) => {
@@ -71,6 +73,7 @@ const handleMessage = (socket, message) => {
         sender: user,
     };
 
+    messages.push(msg);
     io.emit('userMessage', msg);
 };
 
