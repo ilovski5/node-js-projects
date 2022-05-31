@@ -20,7 +20,11 @@ form.addEventListener('submit', (e) => {
  * Methods
  */
 
- const appendUserMessage = (msg) => {
+const scrollDown = () => {
+  messages.scrollTop = messages.scrollHeight;
+};
+
+const appendUserMessage = (msg) => {
   const same = socket.id === msg.sender.id;
 
   const li = document.createElement('li');
@@ -55,7 +59,7 @@ form.addEventListener('submit', (e) => {
   li.appendChild(img);
   li.appendChild(bubble);
   messages.appendChild(li);
-  window.scrollTo(0, document.body.scrollHeight);
+  scrollDown();
 };
 
 const appendServerMessage = (msg) => {
@@ -64,12 +68,12 @@ const appendServerMessage = (msg) => {
   li.innerHTML = `${msg.text}<br>${msg.time}`;
 
   messages.appendChild(li);
-  window.scrollTo(0, document.body.scrollHeight);
+  scrollDown();
 };
 
 /**
  * Socket events
  */
 
- socket.on('userMessage', (data) => { appendUserMessage(data); });
- socket.on('serverMessage', (data) => { appendServerMessage(data); });
+socket.on('userMessage', (data) => { appendUserMessage(data); });
+socket.on('serverMessage', (data) => { appendServerMessage(data); });

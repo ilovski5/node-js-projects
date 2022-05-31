@@ -52,6 +52,7 @@ const handleConnect = (socket) => {
     };
 
     users.push(user);
+
     // fetch old messages
     messages.map((message) => { socket.emit('userMessage', message); });
 
