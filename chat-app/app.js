@@ -55,7 +55,10 @@ const handleConnect = (socket) => {
 };
 
 const handleDisconnect = (socket) => {
-    console.log(`a user with id ${socket.id} disconnected`);
+    const user = users.find((current) => current.id === socket.id);
+    if (!user) return;
+
+    users.splice(users.findIndex((current) => current.id === user.id), 1);
 };
 
 const handleMessage = (socket, message) => {
