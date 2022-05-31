@@ -52,8 +52,15 @@ const handleConnect = (socket) => {
     };
 
     users.push(user);
-    // get old messages when user connects later
+    // fetch old messages
     messages.map((message) => { socket.emit('userMessage', message); });
+
+    // notify connected users when new user joins the chat
+    const msg = {
+        text: `${user.username} has joined the conversation`,
+        time: time(),
+    };
+    socket.broadcast.emit('serverMessage', msg);
 };
 
 const handleDisconnect = (socket) => {
@@ -61,6 +68,13 @@ const handleDisconnect = (socket) => {
     if (!user) return;
 
     users.splice(users.findIndex((current) => current.id === user.id), 1);
+
+    // notify connected users when a user leaves the chat
+    const msg = {
+        text: `${user.username} has left the conversation`,
+        time: time(),
+    };
+    socket.broadcast.emit('serverMessage', msg);
 };
 
 const handleMessage = (socket, message) => {

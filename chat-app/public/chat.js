@@ -58,8 +58,18 @@ form.addEventListener('submit', (e) => {
   window.scrollTo(0, document.body.scrollHeight);
 };
 
+const appendServerMessage = (msg) => {
+  const li = document.createElement('li');
+  li.classList.add('center-msg');
+  li.innerHTML = `${msg.text}<br>${msg.time}`;
+
+  messages.appendChild(li);
+  window.scrollTo(0, document.body.scrollHeight);
+};
+
 /**
  * Socket events
  */
 
  socket.on('userMessage', (data) => { appendUserMessage(data); });
+ socket.on('serverMessage', (data) => { appendServerMessage(data); });
