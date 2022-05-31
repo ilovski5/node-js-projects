@@ -1,3 +1,5 @@
+// Server
+
 const express = require('express');
 const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
@@ -32,12 +34,15 @@ app.post('/chat', (req, res) => {
     res.render('chat', { username });
 });
 
-let uName; 
+let uName;
 const users = [];
+const messages = [];
 
 /**
  * Methods
  */
+
+const time = () => new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 
 const handleConnect = (socket) => {
     const user = {
@@ -54,7 +59,16 @@ const handleDisconnect = (socket) => {
 };
 
 const handleMessage = (socket, message) => {
-    console.log(`${message}`);
+    const user = users.find((current) => current.id === socket.id);
+    if (!user) return;
+
+    const msg = {
+        text: message,
+        time: time(),
+        sender: user,
+    };
+
+    io.emit('userMessage', msg);
 };
 
 /**
