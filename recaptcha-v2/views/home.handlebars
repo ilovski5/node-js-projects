@@ -49,4 +49,26 @@
 
   // Fetch all comments on first load
   window.onload = async () => { await fetchComments(); };
+
+  // Handle form submit
+  const form = document.getElementById('form');
+  form.onsubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const obj = {};
+    Array.from(formData.entries()).map(([key, value]) => { obj[key] = value; })
+
+    await fetch('/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(obj),
+    });
+    
+    grecaptcha.reset();
+    input.value = '';
+    await fetchComments();
+  };
 </script>
