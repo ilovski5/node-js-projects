@@ -17,3 +17,36 @@
     </table>
   </div>
 </div>
+
+<script>
+  // Insert comments into the DOM
+  function appendComments(comments) {
+    const items = document.createElement('tbody');
+    items.setAttribute('id', 'tbody');
+
+    for (const comment of comments) {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.textContent = comment;
+      tr.appendChild(td);
+      items.appendChild(tr);
+    }
+
+    // replace rows
+    const oldItems = document.getElementById('tbody');
+    oldItems.parentNode.replaceChild(items, oldItems);
+  }
+
+  // Get all comments from the server
+  async function fetchComments() {
+    const response = await fetch('/comments');
+    const comments = await response.json();
+
+    if (comments?.length) {
+      appendComments(comments);
+    }
+  }
+
+  // Fetch all comments on first load
+  window.onload = async () => { await fetchComments(); };
+</script>
