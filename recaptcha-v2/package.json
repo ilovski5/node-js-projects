@@ -1,0 +1,14 @@
+{
+  "name": "recaptcha-v2",
+  "version": "1.0.0",
+  "description": "client-server implementation of reCAPTCHA v2",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-handlebars": "^6.0.6"
+  }
+}
